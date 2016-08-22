@@ -10,11 +10,17 @@ proc drawLine*(img: var Image,x,y:int=0,thickness:int=1,length:int=1,color:NColo
     for j in x..x+length-1:
       img[i,j] = NColor(color)
 
+proc drawRevLine*(img: var Image,x,y:int=0,thickness:int=1,length:int=1,color:NColor=NColor(0x000000FF)) = # Draw from right to left
+  
+  for i in countDown(y,y-thickness+1):
+    for j in countDown(x,x-length+1):
+      img[i,j] = NColor(color)
+
 proc drawRect*(img: var Image,x,y:int=0,width:int=1,height:int=1,thickness:int=1,color:NColor=NColor(0x000000FF)) =
   img.drawLine(x,y,height,thickness,NColor(0x000000FF)) # left side
-  img.drawLine(x+width,y,height,thickness,NColor(0xFF0000FF)) # right side
-  img.drawLine(x+width,y+height,thickness,width,NColor(0x00FF00FF)) # bottom side
-  img.drawLine(x,y+height,thickness,width,NColor(0x0000FFFF)) # top side
+  img.drawLine(x+width-thickness,y,height,thickness,NColor(0xFF0000FF)) # right side
+  img.drawLine(x+width,y+height-thickness,thickness,width,NColor(0x00FF00FF)) # bottom side
+  img.drawRevLine(x,y+height-thickness,thickness,width,NColor(0x0000FFFF)) # top side
 
 when isMainModule:
   import streams
@@ -23,8 +29,9 @@ when isMainModule:
     let h = 4
     var img1 = createImage(w, h)
     img1.fillWith(NColor(0xFFFFFFFF))
-    #img1.drawLine(10,10,15,60) 
-    img1.drawRect(1,1,1,1,1)
+    img1.drawLine(1,1,1,2)
+    img1.drawRevLine(2,2,1,2) 
+    #img1.drawRect(0,0,2,2,1)
     var out1 = newFileStream("testdraw.png", fmWrite)
     img1.savePng(out1)
     out1.close()
