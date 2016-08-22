@@ -5,11 +5,11 @@ export nimage.Image, nimage.create_image, nimage.NColor, nimage.save_png
 
 const
   ## Common colors used for testing
-  Black = NColor(0x000000FF)
-  Blue = NColor(0x0000FFFF)
-  Green = NColor(0x00FF00FF)
-  Red = NColor(0xFF0000FF)
-  White = NColor(0xFFFFFFFF)
+  Black* = NColor(0x000000FF)
+  Blue* = NColor(0x0000FFFF)
+  Green* = NColor(0x00FF00FF)
+  Red* = NColor(0xFF0000FF)
+  White* = NColor(0xFFFFFFFF)
   
 
 
@@ -41,16 +41,6 @@ proc drawRect*(img: var Image,x,y:int=0,width:int=1,height:int=1,thickness:int=1
   img.drawLine(x,y,thickness,width,color) # top side
   img.drawRevLine(x+width-1,y+height-1,thickness,width,color) # bottom side
   img.drawRevLine(x+width-1,y+height-1,height,thickness,color) # right side
-
-proc drawRect2*(img: var Image,x,y:int=0,width:int=1,height:int=1,thickness:int=1,color:NColor=NColor(0x000000FF)) =
-  ## Draw a rectangle, (x,y) is the top left corner.
-  ## Measures are on the outside 
-  
-  img.drawLine(x,y,height,thickness,Black) # left side
-  img.drawLine(x,y,thickness,width,Red) # top side
-  img.drawRevLine(x+width-1,y+height-1,thickness,width,Green) # bottom side
-  img.drawRevLine(x+width-1,y+height-1,height,thickness,Blue) # right side
-
 
 when isMainModule:
   import streams
