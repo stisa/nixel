@@ -207,7 +207,6 @@ proc drawCaptcha*(filename,text:string,textColor:NColor=NColor(0x9800FFFF),bgCol
   # Background Os
   for i in 0..text.len-1:
     surface.drawObliqueLine(i*10,0,2,7,NColor(0xFFFF0099))
-    #surface.drawRect(i*5,1,8,8,1,) #Yellow 0
   
   surface.drawEq(text,0,0,textColor,14,10)
   
