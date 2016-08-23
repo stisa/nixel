@@ -65,27 +65,6 @@ proc saveImageTo*(img:Image,filename:string) =
   img.save_png(file)
   file.close()
 
-#[]
-proc drawA(img:var Image,x,y:int=0,ptsize:int=14,color:NColor=Black)=
-  img.drawRect(x+1,y+1,int ptsize/2,int ptsize/2-2)
-  img.drawLine(x+1,y+1,int ptsize/2+1,1)
-  img.drawLine(x+int ptsize/2,y+1,int ptsize/2+1,1)
-
-proc drawB(img:var Image,x,y:int=0,ptsize:int=14,color:NColor=Black)=
-  img.drawRect(x+1,y+1,int ptsize/2-1,int (1+ptsize/4) )
-  img.drawRect(x+1,y+int (1+ptsize/4),int ptsize/2,int 1+ptsize/4)
-
-proc drawC(img:var Image,x,y:int=0,ptsize:int=14,color:NColor=Black)=
-  let 
-    height = 1+int ptsize/2
-    width = int ptsize/2-2
-    thickness = 1
-
-  img.drawLine(x+1,y+1,height,thickness) # left side
-  img.drawLine(x+1,y+1,thickness,width) # top side
-  img.drawRevLine(x+width,y+height,thickness,width) # bottom side ]#
-
-
 proc drawplus (img:var Image,x,y:int=0,color:NColor=Black,ptsize:int=14)=
   let hr,wr = 5 # hardcoding is a bad idea
   img.drawLine(x+1+int wr/2,y+3,hr,1,color) # vertical line
@@ -211,7 +190,7 @@ proc drawEq*(img: var Image,eq:string, x,y:int=0,color:NColor=Black,ptsize:int=1
     else:
       echo "[Nixel]drawEq: Skipping '",c, "', unhandled char"
 
-proc drawCaptcha*(filename,text:string,textColor:NColor=Purple,bgColor:NColor=Transparent,borderColor:NColor=Transparent) =
+proc drawCaptcha*(filename,text:string,textColor:NColor=NColor(0x9800FFFF),bgColor:NColor=Transparent,borderColor:NColor=Transparent) =
   ## This function is for nimforum.
   ## Draws text to filename, with oblique lines.
   ## If bgColor is not Transparent the background gets cleared to bgColor
@@ -225,16 +204,13 @@ proc drawCaptcha*(filename,text:string,textColor:NColor=Purple,bgColor:NColor=Tr
   if borderColor==Transparent: discard
   else: surface.drawRect(0,0,surface.width,surface.height,1,borderColor)
   
-  # First set of oblique lines
-  for i in 0..(int text.len/2):
-    surface.drawObliqueLine(i*10,0,2,7,HalfTBlack)
-
+  # Background Os
+  for i in 0..text.len-1:
+    surface.drawObliqueLine(i*10,0,2,7,NColor(0xFFFF0099))
+    #surface.drawRect(i*5,1,8,8,1,) #Yellow 0
+  
   surface.drawEq(text,0,0,textColor,14,10)
   
-  # Second set of oblique lines
-  for i in (int text.len/2)..text.len-1:
-    surface.drawObliqueLine(i*10,0,2,7,HalfTGreen)
-
   surface.saveImageTo(filename)
 
 when isMainModule:
@@ -251,6 +227,6 @@ when isMainModule:
     #out1.close()
     #echo("Drew to: testdraw.png")
 
-    drawCaptcha("testdraw.png","104+132=",Purple,White)
+    drawCaptcha("testdraw.png","104+132=")
   
   main()

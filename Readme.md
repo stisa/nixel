@@ -16,6 +16,8 @@ numbers, spaces, `+` , `=` )
 Examples
 --------
 
+![tet](testdraw.png)
+
 ### [captcha.nim](examples/captcha.nim)
 ![noborder](examples/captcha.png)  
 ![border](examples/captchaBorder.png)
