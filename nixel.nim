@@ -15,7 +15,7 @@ const
   Red* = NColor(0xFF0000FF)
   Purple* = NColor(0xFF00FFFF)
   White* = NColor(0xFFFFFFFF)
-  HalfTBlack* = NColor(0x00000088)
+  HalfTBlack* = NColor(0x00000088) ## HalfT<Color> colors are <color> at half alpha
   HalfTBlue* = NColor(0x0000FF88)
   HalfTGreen* = NColor(0x00FF0088)
   HalfTRed* = NColor(0xFF000088)
