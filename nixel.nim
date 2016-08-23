@@ -174,6 +174,7 @@ proc draw9(img:var Image,x,y:int=0,color:NColor=Black,ptsize:int=14)=
 proc drawEq*(img: var Image,num:string, x,y:int=0,color:NColor=Black,ptsize=14) =
   for i,c in num:
     case c:
+    of ' ': continue
     of '+': img.drawplus(i*8,0) #TODO color
     of '=': img.drawequal(i*8,0) #TODO color
     of '0': img.draw0(i*8,0) #TODO color
