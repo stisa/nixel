@@ -1,16 +1,20 @@
 import nimage/nimage
 import streams
 
-##Exports: nimage.Image, nimage.create_image, nimage.NColor, nimage.save_png
+## Exports
+## -------
+## nimage.Image, nimage.create_image, nimage.NColor, nimage.save_png
 export nimage.Image, nimage.create_image, nimage.NColor, nimage.save_png
 
 const
   ## Common colors used for testing
+  Transparent* = NColor(0x00000000)
   Black* = NColor(0x000000FF)
   Blue* = NColor(0x0000FFFF)
   Green* = NColor(0x00FF00FF)
   Red* = NColor(0xFF0000FF)
   White* = NColor(0xFFFFFFFF)
+  
   
 proc fillWith*(img: var Image,color:NColor=NColor(0xFFFFFFFF)) =
   ## Loop over every pixel in `img` and sets its color to `color` 
@@ -32,7 +36,6 @@ proc drawRevLine*(img: var Image,x,y:int=0,thickness:int=1,length:int=1,color:NC
 
 proc drawRect*(img: var Image,x,y:int=0,width:int=1,height:int=1,thickness:int=1,color:NColor= Black) =
   ## Draw a rectangle, (x,y) is the top left corner.
-  ## Measures are on the outside
   img.drawLine(x,y,height,thickness,color) # left side
   img.drawLine(x,y,thickness,width,color) # top side
   img.drawRevLine(x+width-1,y+height-1,thickness,width,color) # bottom side
@@ -64,9 +67,6 @@ proc drawC(img:var Image,x,y:int=0,ptsize:int=14,color:NColor=Black)=
   img.drawLine(x+1,y+1,thickness,width) # top side
   img.drawRevLine(x+width,y+height,thickness,width) # bottom side ]#
 
-#
-## TODO: draw ? , x, !, y
-#
 
 proc drawplus (img:var Image,x,y:int=0,color:NColor=Black,ptsize:int=14)=
   let hr,wr = 5 # hardcoding is a bad idea
@@ -171,8 +171,11 @@ proc draw9(img:var Image,x,y:int=0,color:NColor=Black,ptsize:int=14)=
   img.drawLine(x+1,y+1,int hr/2,1) # left
   img.drawLine(x+1,y+hr,1,wr) # bottom
 
-proc drawEq*(img: var Image,num:string, x,y:int=0,color:NColor=Black,ptsize=14) =
-  for i,c in num:
+proc drawEq*(img: var Image,eq:string, x,y:int=0,color:NColor=Black,ptsize:int=14) =
+  ## TODO: draw ? , x, !, y, handle ptize correctly
+  ## Draws an eq supplied as a string.
+  ## Currently handles spaces, numbers, `+`, `=`
+  for i,c in eq:
     case c:
     of ' ': continue
     of '+': img.drawplus(i*8,0) #TODO color
@@ -190,14 +193,17 @@ proc drawEq*(img: var Image,num:string, x,y:int=0,color:NColor=Black,ptsize=14) 
     else:
       echo "[NDraw]: '",c, "' can't be drawn"
 
-proc drawCaptcha*(filename,text:string) =
+proc drawCaptcha*(filename,text:string,borderColor:NColor=Transparent) =
+  ## This function is for nimforum.
+  ## Draws text to filename.
+  ## If borderColor is not Transparent a 1px border is drawn.
   var surface = createImage(10*text.len,10)
-  surface.drawRect(0,0,surface.width,surface.height,1,Red)
+  if borderColor==Transparent: discard
+  else: surface.drawRect(0,0,surface.width,surface.height,1,borderColor)
   surface.drawEq(text)
   surface.saveImageTo(filename)
 
 when isMainModule:
-  import streams
   proc main() =
     let w = 120
     let h = 10
