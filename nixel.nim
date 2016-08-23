@@ -34,6 +34,17 @@ proc drawRevLine*(img: var Image,x,y:int=0,thickness:int=1,length:int=1,color:NC
       if(i>=img.height or i<0 or j>=img.width or j<0):continue # avoid going oob
       img[i,j] = NColor(color)
 
+proc drawObliqueLine(img: var Image, x,y:int=0, thickness :int= 1,length:int=1,color:NColor=Black ) =
+  let boundx = x+int 1.4*length.float # x2 = x1+length*cos45
+  let boundy = y+int 1.4*length.float
+  let ht = int thickness/2
+  for i in y..boundy:
+    if(i>=img.height or i<0 ):continue 
+    for j in x..boundx:
+      if(j>=img.width or j<0):continue # avoid going oob
+      if(j<=x+i+ht and j>=x+i-ht):
+        img[i,j] = color
+
 proc drawRect*(img: var Image,x,y:int=0,width:int=1,height:int=1,thickness:int=1,color:NColor= Black) =
   ## Draw a rectangle, (x,y) is the top left corner.
   img.drawLine(x,y,height,thickness,color) # left side
@@ -197,6 +208,8 @@ proc drawCaptcha*(filename,text:string,borderColor:NColor=Transparent) =
   ## This function is for nimforum.
   ## Draws text to filename.
   ## If borderColor is not Transparent a 1px border is drawn.
+
+  #TODO: add half alpha lines to sway bots
   var surface = createImage(10*text.len,10)
   if borderColor==Transparent: discard
   else: surface.drawRect(0,0,surface.width,surface.height,1,borderColor)
@@ -206,11 +219,12 @@ proc drawCaptcha*(filename,text:string,borderColor:NColor=Transparent) =
 when isMainModule:
   proc main() =
     let w = 120
-    let h = 10
+    let h = 120
   #  let ps = 14
     var img1 = createImage(w, h)
-    img1.fillWith(White)    
-    img1.drawEq("104+132 = ")
+    img1.fillWith(White)
+    img1.drawObliqueLine(0,0,1,50)    
+    #img1.drawEq("104+132 = ")
     
     var out1 = newFileStream("testdraw.png", fmWrite)
     img1.savePng(out1)
