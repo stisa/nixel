@@ -217,10 +217,6 @@ proc drawCaptcha*(filename,text:string,textColor:NColor=Purple,bgColor:NColor=Tr
   ## If bgColor is not Transparent the background gets cleared to bgColor
   ## If borderColor is not Transparent a 1px border is drawn.
 
-  
-  echo "cs",text.cstring.len
-  echo "ss",text.string.len
-
   var surface = createImage(10*text.len,10)
 
   if bgColor==Transparent: discard

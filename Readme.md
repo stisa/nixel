@@ -16,6 +16,14 @@ numbers, spaces, `+` , `=` )
 Examples
 --------
 
+### [captcha.nim](examples/captcha.nim)
+![noborder](examples/captcha.png)  
+![border](examples/captchaBorder.png)
+### [rect.nim](examples/rect.nim)
+![rect](examples/rect.png)
+### [square.nim](examples/square.nim)
+Mhh this one is a bit tiny ![square](examples/square.png)
+
 See [examples](...) for code.
 
 Documentation
