@@ -4,7 +4,7 @@ import streams
 ## Exports
 ## -------
 ## nimage.Image, nimage.create_image, nimage.NColor, nimage.save_png
-export nimage.Image, nimage.create_image, nimage.NColor, nimage.save_png
+export nimage.Image, nimage.create_image, nimage.NColor, nimage.save_png,nimage.`==`
 
 const
   ## Common colors used for testing
@@ -189,28 +189,6 @@ proc drawEq*(img: var Image,eq:string, x,y:int=0,color:NColor=Black,ptsize:int=1
     of '9': img.draw9(i*dist,0,color)
     else:
       echo "[Nixel]drawEq: Skipping '",c, "', unhandled char"
-
-proc drawCaptcha*(filename,text:string,textColor:NColor=NColor(0x9800FFFF),bgColor:NColor=Transparent,borderColor:NColor=Transparent) =
-  ## This function is for nimforum.
-  ## Draws text to filename, with oblique lines.
-  ## If bgColor is not Transparent the background gets cleared to bgColor
-  ## If borderColor is not Transparent a 1px border is drawn.
-
-  var surface = createImage(10*text.len,10)
-
-  if bgColor==Transparent: discard
-  else: surface.fillWith(bgColor)
-  
-  if borderColor==Transparent: discard
-  else: surface.drawRect(0,0,surface.width,surface.height,1,borderColor)
-  
-  # Background Os
-  for i in 0..text.len-1:
-    surface.drawObliqueLine(i*10,0,2,7,NColor(0xFFFF0099))
-  
-  surface.drawEq(text,0,0,textColor,14,10)
-  
-  surface.saveImageTo(filename)
 
 when isMainModule:
   proc main() =
