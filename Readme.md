@@ -14,6 +14,13 @@ Currently you can:
 **Bonus**: draw simple equations in the format `# + # =` ( or any other combination of  
 numbers, spaces, `+` , `=` )
 
+**NOTE**: if nimble doesn't pull nimage run:
+
+```
+ git submodule init
+ git submodule update
+```
+
 Examples
 --------
 
