@@ -1,4 +1,4 @@
-import ../draw
+import ../nixel
 import streams
 
 
