@@ -1,0 +1,3 @@
+[submodule "nimage"]
+	path = nimage
+	url = https://github.com/stisa/nimage.git
