@@ -196,20 +196,20 @@ proc drawEq*(img: var Image,eq:string, x,y:int=0,color:NColor=Black,ptsize:int=1
   for i,c in eq:
     case c:
     of ' ': continue
-    of '+': img.drawplus(i*dist,0,color) #TODO color
-    of '=': img.drawequal(i*dist,0,color) #TODO color
-    of '0': img.draw0(i*dist,0,color) #TODO color
+    of '+': img.drawplus(i*dist,0,color)
+    of '=': img.drawequal(i*dist,0,color)
+    of '0': img.draw0(i*dist,0,color) 
     of '1': img.draw1(i*dist,0,color)
     of '2': img.draw2(i*dist,0,color)
     of '3': img.draw3(i*dist,0,color)
     of '4': img.draw4(i*dist,0,color)
-    of '5': img.draw5(i*dist,0,color) #TODO color
+    of '5': img.draw5(i*dist,0,color)
     of '6': img.draw6(i*dist,0,color)
     of '7': img.draw7(i*dist,0,color)
     of '8': img.draw8(i*dist,0,color)
     of '9': img.draw9(i*dist,0,color)
     else:
-      echo "[NDraw]: '",c, "' can't be drawn"
+      echo "[Nixel]drawEq: Skipping '",c, "', unhandled char"
 
 proc drawCaptcha*(filename,text:string,textColor:NColor=Purple,bgColor:NColor=Transparent,borderColor:NColor=Transparent) =
   ## This function is for nimforum.
