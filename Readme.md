@@ -1,12 +1,13 @@
 Nixel
 =====
-<sub>A pixel drawing utility in pure [nim](...) - No external lib required</sub>
+<sub>A pixel drawing utility in pure [nim](http://nim-lang.org/) - No external lib required</sub>
 
-This is a simple lib that can draw `.png` files, abstracted over a fork of [nimage](...) that I got  
-compiling again under [nim](...) `0.14.2` . ( Yes I plan on opening a pull request for it ). 
+This is a simple lib that can draw `.png` files, abstracted over a fork of [nimage](https://github.com/haldean/nimage) that I got  
+compiling again under [nim](http://nim-lang.org/) `0.14.2` (I opened a pull request for it, in the mean time use my [fork](https://github.com/stisa/nimage/) ). 
+
 Currently you can:
   - Fill a surface with a color
-  - Draw lines ( left to right, right to left )
+  - Draw lines ( left to right, right to left, oblique )
   - Draw rectangles
   - Save a surface to png
 
@@ -26,7 +27,7 @@ Examples
 ### [square.nim](examples/square.nim)
 Mhh this one is a bit tiny ![square](examples/square.png)
 
-See [examples](...) for code.
+See [examples](https://github.com/stisa/nixel/tree/master/examples) for code.
 
 Documentation
 -------------
@@ -42,4 +43,6 @@ Plans
 License
 -------
 
-TODO: verify mit compatible, then [MIT](...)
+[MIT](https://github.com/stisa/nixel/LICENSE)
+
+nimage: [BSD](https://github.com/haldean/nimage/blob/master/LICENSE)
