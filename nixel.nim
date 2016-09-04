@@ -189,21 +189,3 @@ proc drawEq*(img: var Image,eq:string, x,y:int=0,color:NColor=Black,ptsize:int=1
     of '9': img.draw9(i*dist,0,color)
     else:
       echo "[Nixel]drawEq: Skipping '",c, "', unhandled char"
-
-when isMainModule:
-  proc main() =
-    #let w = 120
-    #let h = 10
-  #  let ps = 14
-    #var img1 = createImage(w, h)
-    #img1.fillWith(White)
-    #img1.drawEq("104+132 = ")
-    
-    #var out1 = newFileStream("testdraw.png", fmWrite)
-    #img1.savePng(out1)
-    #out1.close()
-    #echo("Drew to: testdraw.png")
-
-    drawCaptcha("testdraw.png","104+132=")
-  
-  main()
