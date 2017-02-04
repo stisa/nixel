@@ -7,7 +7,7 @@ proc drawCaptcha(filename,text:string,textColor:NColor=NColor(0x9800FFFF),bgColo
   ## If bgColor is not Transparent the background gets cleared to bgColor
   ## If borderColor is not Transparent a 1px border is drawn.
 
-  var surface = createImage(10*text.len,10)
+  var surface = initImg(10*text.len,10)
 
   if bgColor==Transparent: discard
   else: surface.fillWith(bgColor)
@@ -19,9 +19,9 @@ proc drawCaptcha(filename,text:string,textColor:NColor=NColor(0x9800FFFF),bgColo
   for i in 0..text.len-1:
     surface.drawObliqueLine(i*10,0,2,7,NColor(0xFFFF0099))
   
-  surface.drawEq(text,0,0,textColor,14,10)
+  surface.drawEq(text,textColor,10)
   
-  surface.saveImageTo(filename)
+  surface.saveTo(filename)
 
 proc createCaptcha(filename,text:string,opts:varargs[NColor]) =
   case opts.len:

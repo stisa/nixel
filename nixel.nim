@@ -1,10 +1,11 @@
-import nimage/nimage
+import nimPNG #nimage/nimage
 import streams
 
-## Exports
-## -------
-## nimage.Image, nimage.create_image, nimage.NColor, nimage.save_png
-export nimage.Image, nimage.create_image, nimage.NColor, nimage.save_png,nimage.`==`
+
+type NColor* = uint32
+type Image* = object
+  data: seq[NColor]
+  height*,width*:int
 
 const
   ## Common colors used for testing
@@ -20,7 +21,23 @@ const
   HalfTGreen* = NColor(0x00FF0088)
   HalfTRed* = NColor(0xFF000088)
   HalftWhite* = NColor(0xFFFFFF88)
-  
+
+proc `$`*(c:NColor):string =
+  result = "    "
+  result[0] = cast[uint8](c shr 24).char
+  result[1] = cast[uint8](c shr 16).char
+  result[2] = cast[uint8](c shr 8).char
+  result[3] = cast[uint8](c shr 0).char
+proc `[]=`*(im:var Image,i,j:int,val:Ncolor) =
+  im.data[j*im.width+i] = val
+ 
+proc `[]`*(im:Image,i,j:int):Ncolor = im.data[j*im.width+i]
+
+proc initImg*(w,h:int) :Image =
+  result.width = w
+  result.height = h
+  result.data = newSeq[NColor](w*h)
+ 
 proc fillWith*(img: var Image,color:NColor=NColor(0xFFFFFFFF)) =
   ## Loop over every pixel in `img` and sets its color to `color` 
   for pix in img.data.mitems: pix = NColor(color) 
@@ -31,7 +48,7 @@ proc drawLine*(img: var Image,x,y:int=0,thickness:int=1,length:int=1,color:NColo
     if(i>=img.height or i<0 ):continue
     for j in x..x+length-1:
       if(j>=img.width or j<0):continue # avoid going oob
-      img[i,j] = NColor(color)
+      img[j,i] = NColor(color)
 
 proc drawRevLine*(img: var Image,x,y:int=0,thickness:int=1,length:int=1,color:NColor=NColor(0x000000FF)) = # Draw from right to left
   ## Draw a line at (x,y) going from right to left
@@ -39,7 +56,7 @@ proc drawRevLine*(img: var Image,x,y:int=0,thickness:int=1,length:int=1,color:NC
     if(i>=img.height or i<0):continue 
     for j in countDown(x,x-length+1):
       if(j>=img.width or j<0):continue # avoid going oob
-      img[i,j] = NColor(color)
+      img[j,i] = NColor(color)
 
 proc drawObliqueLine*(img: var Image, x,y:int=0, thickness :int= 1,length:int=1,color:NColor=Black ) =
   let boundx = x+int 1.4*length.float # x2 = x1+length*cos45
@@ -50,7 +67,7 @@ proc drawObliqueLine*(img: var Image, x,y:int=0, thickness :int= 1,length:int=1,
     for j in x..boundx:
       if(j>=img.width or j<0):continue # avoid going oob
       if(j<=x+i+ht and j>=x+i-ht):
-        img[i,j] = color
+        img[j,i] = color
 
 proc drawRect*(img: var Image,x,y:int=0,width:int=1,height:int=1,thickness:int=1,color:NColor= Black) =
   ## Draw a rectangle, (x,y) is the top left corner.
@@ -59,11 +76,12 @@ proc drawRect*(img: var Image,x,y:int=0,width:int=1,height:int=1,thickness:int=1
   img.drawRevLine(x+width-1,y+height-1,thickness,width,color) # bottom side
   img.drawRevLine(x+width-1,y+height-1,height,thickness,color) # right side
 
-proc saveImageTo*(img:Image,filename:string) =
+proc saveTo*(img:Image,filename:string) =
   ## Convience function. Saves `img` into `filename`
-  var file = newFileStream(filename, fmWrite)
-  img.save_png(file)
-  file.close()
+  var dt :string = ""
+  for d in img.data:
+    dt.add($d) 
+  if not filename.savepng32(dt,img.width,img.height): echo "todo: error saving"
 
 proc drawplus (img:var Image,x,y:int=0,color:NColor=Black,ptsize:int=14)=
   let hr,wr = 5 # hardcoding is a bad idea
@@ -168,7 +186,7 @@ proc draw9(img:var Image,x,y:int=0,color:NColor=Black,ptsize:int=14)=
   img.drawLine(x+1,y+1,int hr/2,1,color) # left
   img.drawLine(x+1,y+hr,1,wr,color) # bottom
 
-proc drawEq*(img: var Image,eq:string, x,y:int=0,color:NColor=Black,ptsize:int=14,dist:int=8) =
+proc drawEq*(img: var Image,eq:string,color:NColor=Black,dist:int=8) =
   ## TODO: draw ? , x, !, y, handle ptize correctly
   ## Draws an eq supplied as a string.
   ## Currently handles spaces, numbers, `+`, `=`
@@ -189,3 +207,9 @@ proc drawEq*(img: var Image,eq:string, x,y:int=0,color:NColor=Black,ptsize:int=1
     of '9': img.draw9(i*dist,0,color)
     else:
       echo "[Nixel]drawEq: Skipping '",c, "', unhandled char"
+
+when isMainmodule:
+ var img = initImg(30,15)
+ img.fillwith(Red)
+ img.draweq("11") 
+ img.saveto("o.png") 

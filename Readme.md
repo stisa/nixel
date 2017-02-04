@@ -2,8 +2,7 @@ Nixel
 =====
 <sub>A pixel drawing utility in pure [nim](http://nim-lang.org/) - No external lib required</sub>
 
-This is a simple lib that can draw `.png` files, abstracted over a fork of [nimage](https://github.com/haldean/nimage) that I got  
-compiling again under [nim](http://nim-lang.org/) `0.14.2` (I opened a pull request for it, in the mean time use my [fork](https://github.com/stisa/nimage/) ). 
+This is a simple lib that can draw `.png` files, abstracted over  [nimPNG](https://github.com/jabgqo/nimPNG).
 
 Currently you can:
   - Fill a surface with a color
@@ -13,13 +12,6 @@ Currently you can:
 
 **Bonus**: draw simple equations in the format `# + # =` ( or any other combination of  
 numbers, spaces, `+` , `=` )
-
-**NOTE**: if nimble doesn't pull nimage run:
-
-```
- git submodule init
- git submodule update
-```
 
 Examples
 --------
@@ -44,7 +36,6 @@ See code comments, or view `nim doc2` output [at my site](http://stisa.space/nix
 Plans
 -----
 - convenience function for creating `NColor`, maybe `proc rgba(r,g,b,a:float):NColor` ( `proc rgb()` too)
-- nimage supports loading too, so verify and expose it. ( Requires `zlib` ?)
 - support saving sdl2 surfaces ( and maybe loading too? )
 
 License
@@ -52,4 +43,3 @@ License
 
 [MIT](https://github.com/stisa/nixel/LICENSE)
 
-nimage: [BSD](https://github.com/haldean/nimage/blob/master/LICENSE)

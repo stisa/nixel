@@ -17,13 +17,11 @@ proc rect() =
   # Draw our image in memory
   let w = 128
   let h = 64
-  var img1 = createImage(w, h)
+  var img1 = initImg(w, h)
   img1.fillWith(White)
   img1.drawColoredRect(10,10,24,48,8)
   img1.drawRect(56,16,36,36,8)
 
-  var out1 = newFileStream("rect.png", fmWrite)
-  img1.savePng(out1)
-  out1.close()
+  img1.saveto("rect.png")
   echo("Drew to: rect.png")
 rect()
